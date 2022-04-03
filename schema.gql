@@ -1,0 +1,98 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Alteration {
+  code: String!
+  nom: String!
+  tone: Float!
+  signe: String!
+}
+
+type Notation {
+  tone: Float!
+  code: ID!
+  latin: String!
+  english: String!
+}
+
+type Note {
+  code: ID!
+  name: String!
+  blueprint: Notation!
+  tone: Float!
+  alteration: Alteration!
+}
+
+type Intervalle_BP {
+  code: ID!
+  name: String!
+  tone: Float!
+  type: Notation!
+  nature: Notation!
+}
+
+type Intervalle {
+  code: ID!
+  notes: [Note!]!
+  name: String!
+  blueprint: Intervalle_BP!
+  tone: [Float!]!
+}
+
+type Chord {
+  code: ID!
+  name: String!
+  blueprint: String!
+  intervals: [Intervalle!]!
+  notes: [Note!]!
+}
+
+type Scale {
+  code: ID!
+  name: String!
+  notes: [Note!]!
+  tone: [Note!]!
+  tones: [Note!]!
+}
+
+type Query {
+  notes: [Note!]!
+  intervals: [Intervalle!]!
+  intervalle(id: Int!): Intervalle!
+  chords: [Chord!]!
+  filterChords(input: FindChordInput!): [Chord!]!
+  scales: [Scale!]!
+  filterScales(input: FindScaleInput!): [Scale!]!
+}
+
+input FindChordInput {
+  code: ID!
+  name: String!
+  blueprint: String!
+  note: [Float!]!
+}
+
+input FindScaleInput {
+  code: ID!
+  name: String!
+  blueprint: String!
+  tone: [Float!]!
+}
+
+type Mutation {
+  createIntervalle(createIntervalleInput: CreateIntervalleInput!): Intervalle!
+  updateIntervalle(updateIntervalleInput: UpdateIntervalleInput!): Intervalle!
+  removeIntervalle(id: Int!): Intervalle!
+}
+
+input CreateIntervalleInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateIntervalleInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
