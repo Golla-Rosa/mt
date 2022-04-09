@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import React, { useEffect, useState } from 'react'
 import client from '../../apollo-client';
-import { DataService } from '../global/global.service';
+import ScaleService from '../../services/scale.service';
 
 async function fetchData() {
   const  data = await client.query({
@@ -24,15 +24,20 @@ async function fetchData() {
 
 }
 export default function index(props) {
-  const [scales, setscales] = useState([])
+  const [scales, setScales] = useState([])
 const [isLoading, setLoading] = useState(false)
 
 useEffect(() => {
     setLoading(true)
-    fetchData().then(({props}) => {
-           setscales(props.scales)
-          console.log(scales)
-      });
+    ScaleService.get().then(({props}) => {
+      setScales(props.scales);
+    }
+    )
+
+    // fetchData().then(({props}) => {
+    //        setscales(props.scales)
+    //       console.log(scales)
+    //   });
 }, [])
 
   return scales ? (

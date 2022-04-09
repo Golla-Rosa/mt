@@ -3,6 +3,7 @@ import { DataService } from '../global/global.service'
 import Router from 'next/router'
 import { gql } from '@apollo/client';
 import client from '../../apollo-client';
+import  NoteService from '../../services/note.service';
 
 
 export async function getServerSideProps() {
@@ -51,10 +52,15 @@ export default function index() {
 
   useEffect(() => {
       setLoading(true)
-      fetchData().then(({props}) => {
-             setNotes(props.notes)
-            console.log(notes)
-        });
+      NoteService.get().then(({props}) => {
+        console.log(props, "noteSerivce result")
+        setNotes(props.notes)
+      })
+      
+      // fetchData().then(({props}) => {
+      //        setNotes(props.notes)
+      //       console.log(notes)
+      //   });
   }, [])
   
     return notes ? (

@@ -2,50 +2,18 @@ import { gql } from '@apollo/client';
 import React, { useEffect, useState } from 'react'
 import client from '../../apollo-client';
 import { DataService } from '../global/global.service';
+import ChordService from '../../services/chord.service'
 
-async function fetchData(note : any | null) {
-  const  data = await client.query({
-      query: gql`
-      query filterChords($input: FindChordInput!) { 
-        filterChords(input: $input) { 
-       code
-        name
-        blueprint
-        notes {code name}
-        }
-      }
-      `,
-      variables: {"input":  {
-        "code": "",
-        "note": [],
-        "blueprint": "",
-        "name": note ?? ""
-        
-        
-      }}
-
-      
-    });
-    console.log("querying data")
-    return {
-      props: {
-        chords: data.data.filterChords,
-      },
-   };
-
-}
 export default function index({note}) {
-  console.log(note);
   const [chords, setChords] = useState([])
-const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false)
 
-useEffect(() => {
+  useEffect(() => {
     setLoading(true)
-    fetchData(note).then(({props}) => {
-      console.log(props);
+    ChordService.get().then(({props}) => {
            setChords(props.chords)
       });
-}, [chords, note])
+  }, [chords, note])
 
   return chords ? (
   <div className="h-96 overflow-auto-scroll p-5">
